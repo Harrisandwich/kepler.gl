@@ -31,7 +31,11 @@ import CustomPalette from './custom-palette';
 import {COLOR_RANGES} from 'constants/color-ranges';
 import {numberSort} from 'utils/data-utils';
 
-const ALL_TYPES = uniq(COLOR_RANGES.map(c => c.type).concat(['all']));
+const ALL_TYPES = uniq(
+  COLOR_RANGES.map(c => c.type)
+    .filter(ctype => ctype)
+    .concat(['all'])
+);
 const ALL_STEPS = uniq(COLOR_RANGES.map(d => d.colors.length)).sort(numberSort);
 
 const StyledColorConfig = styled.div`
@@ -41,6 +45,7 @@ const StyledColorConfig = styled.div`
 const ColorRangeSelector = styled.div`
   padding-bottom: 12px;
 `;
+
 export default class ColorRangeSelect extends Component {
   static propTypes = {
     colorRanges: PropTypes.arrayOf(PropTypes.any),
@@ -84,7 +89,7 @@ export default class ColorRangeSelect extends Component {
 
   _updateConfig = ({key, value}) => {
     const currentValue = this.state.config[key].value;
-    //change default custom palette to selected color range
+    // change default custom palette to selected color range
     if (key === 'custom' && value !== currentValue) {
       this.props.setCustomPalette({
         name: 'Custom Palette',
@@ -127,6 +132,7 @@ export default class ColorRangeSelect extends Component {
       showSketcher,
       onToggleSketcherUpdater
     } = this.props;
+
     return (
       <ColorRangeSelector className="color-range-selector">
         <StyledColorConfig>

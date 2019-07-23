@@ -34,7 +34,7 @@ const StyledSortableItem = styled.div`
   padding-bottom: 6px;
   z-index: 100;
   :hover {
-    background-color: #3a4552;
+    background-color: ${props => props.theme.panelBackgroundHover};
 
     .layer__drag-handle {
       opacity: 1;
@@ -62,7 +62,10 @@ const StyledDragHandle = styled.div`
 
 const StyledTrash = styled.div`
   .trashbin {
-    color: #fff;
+    color: #a0a7b4;
+    :hover {
+      color: #fff;
+    }
   }
   height: 12px;
   margin-left: auto;
