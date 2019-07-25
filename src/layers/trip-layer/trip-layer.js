@@ -192,9 +192,6 @@ export default class TripLayer extends Layer {
   formatLayerData(_, allData, filteredIndex, oldLayerData, opt = {}) {
     // to-do: parse segment from allData
     const {
-      colorScale,
-      colorField,
-      colorDomain,
       strokeColorField,
       strokeColorScale,
       strokeColorDomain,
@@ -214,7 +211,6 @@ export default class TripLayer extends Layer {
     const {
       enable3d,
       stroked,
-      colorRange,
       heightRange,
       sizeRange,
       radiusRange,
@@ -422,8 +418,8 @@ export default class TripLayer extends Layer {
         data: data.data,
         getPath: d => d.geometry.coordinates.map(coord => coord.slice(0, 2)),
         getTimestamps: d => d.geometry.coordinates.map(coord => coord[3]),
-        getColor: data.getColor, // d =>
-        // d.Properties.vendor === 0 ? [253, 128, 93] : [23, 184, 190], //to change
+        getColor: data.getColor,
+        highlightColor: HIGHLIGH_COLOR_3D,
         opacity: 0.3,
         widthMinPixels: 2,
         rounded: true,

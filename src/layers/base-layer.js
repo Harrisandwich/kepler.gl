@@ -748,8 +748,6 @@ export default class Layer {
     const visualChannel = this.visualChannels[channel];
 
     this.validateVisualChannel(channel);
-    // calculate layer channel domain
-    const updatedDomain = this.calculateLayerDomain(dataset, visualChannel);
   }
 
   calculateLayerDomain(dataset, visualChannel) {

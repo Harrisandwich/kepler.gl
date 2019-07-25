@@ -19,6 +19,8 @@
 // THE SOFTWARE.
 
 import {DEFAULT_LIGHT_SETTINGS} from 'constants/default-settings';
+import min from 'lodash.min';
+import max from 'lodash.max';
 
 /**
  * Find default layers from fields
@@ -102,22 +104,37 @@ export function getLightSettingsFromBounds(bounds) {
     : DEFAULT_LIGHT_SETTINGS;
 }
 
-// TODO: add function to check geoJsonHasTs/data is trip layer animatable
+// Detect if the data is trip-layer-animatable
+// TODO: to be refined to accommodate more scenarios of input format
+export function tripLayerAnimatable(dataset) {
+  const dataContent = dataset.allData;
+  return dataset && !dataContent.map(d => d[0].geometry).some(e => !e);
+}
 
-export function getTimeAnimationDomain(datasets, timestampIndex) {
-  const datasetId = Object.keys(datasets);
-  const dataContent = datasets[datasetId].allData;
+// Get time animation domain for a dataset
+export function getTimeAnimationDomainPerDataset(dataset, timestampIndex) {
+  const dataContent = dataset.allData;
   const timeField = dataContent
     .map(d => d[0].geometry.coordinates.map(coord => coord[timestampIndex]))
     .flat();
 
-  const minTime = timeField.reduce(
-    (min, p) => (p < min ? p : min),
-    timeField[0]
-  );
-  const maxTime = timeField.reduce(
-    (max, p) => (p > max ? p : max),
-    timeField[0]
-  );
+  const minTime = min(timeField);
+  const maxTime = max(timeField);
   return [minTime, maxTime];
+}
+
+// Get time animation domain for multiple datasets
+// When multiple trip-layer-animatable data co-exist, take the min of min and max of max in the domain of each
+export function getTimeAnimationDomain(datasets, timestampIndex) {
+  const minRange = [];
+  const maxRange = [];
+  Object.values(datasets).map(d => {
+    if (tripLayerAnimatable(d)) {
+      minRange.push(getTimeAnimationDomainPerDataset(d, timestampIndex)[0]);
+      maxRange.push(getTimeAnimationDomainPerDataset(d, timestampIndex)[1]);
+    }
+  });
+  const mmin = min(minRange);
+  const mmax = max(maxRange);
+  return [mmin, mmax];
 }
