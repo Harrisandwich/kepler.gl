@@ -58,9 +58,14 @@ export default function BottomWidgetFactory(TimeWidget, AnimationControl) {
       : containerW;
 
     const animatedLayer = layers.find(l => l.type === 'trip');
+    const tripLayerVisible = layers
+      .filter(l => l.type === 'trip')
+      .some(l => l.config.isVisible);
+
+    //show playback control if layers contain trip layer & at least one trip layer is visible
     return (
       <WidgetContainer width={900}>
-        {animatedLayer ? (
+        {animatedLayer && tripLayerVisible ? (
           <AnimationControl
             animation={animationConfig}
             width={Math.min(maxWidth, enlargedFilterWidth)}

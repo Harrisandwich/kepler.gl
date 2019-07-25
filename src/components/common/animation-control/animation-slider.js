@@ -140,8 +140,6 @@ const AnimationControlFactory = () => {
     render() {
       const {animation, width} = this.props;
       const {currentTime, domain} = animation;
-      // const plotWidth =  width - sliderHandleWidth;
-      // const timeFormat = this.titleFormatter(this.props);
 
       return (
         <WidgetContainer width={width}>

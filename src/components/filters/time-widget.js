@@ -144,9 +144,6 @@ export class TimeWidget extends Component {
     this.setState({showSpeedControl: !this.state.showSpeedControl});
   };
 
-  // fields = { datasets[filters[enlargedFilterIdx].dataId].fields }
-
-  // TODO:(H) make this proper: purpose is to shoe only numerical fields from dataset
   // fieldSelector = props => props.fields;
   // yAxisFieldsSelector = createSelector(
   //   this.fieldSelector,
@@ -187,19 +184,19 @@ export class TimeWidget extends Component {
               <CenterFlexbox className="bottom-widget__icon">
                 <LineChart height="15px" />
               </CenterFlexbox>
-              {/* <div className="bottom-widget__field-select">
-              <FieldSelector
-                fields={this.yAxisFieldsSelector(this.props)}
-                placement="top"
-                id="selected-time-widget-field"
-                value={filter.yAxis ? filter.yAxis.name : null}
-                onSelect={value => setFilterPlot(enlargedIdx, {yAxis: value})}
-                inputTheme="secondary"
-                placeholder="Y Axis"
-                erasable
-                showToken={false}
-              />
-            </div> */}
+              <div className="bottom-widget__field-select">
+                <FieldSelector
+                  fields={[1, 2]}
+                  placement="top"
+                  id="selected-time-widget-field"
+                  value={filter.yAxis ? filter.yAxis.name : null}
+                  onSelect={value => setFilterPlot(enlargedIdx, {yAxis: value})}
+                  inputTheme="secondary"
+                  placeholder="Y Axis"
+                  erasable
+                  showToken={false}
+                />
+              </div>
             </StyledTitle>
             <StyledTitle className="bottom-widget__speed">
               <Button link width="80px" onClick={this._toggleSpeedControl}>
