@@ -300,9 +300,6 @@ function KeplerGlFactory(
 
       const isExporting = uiState.currentModal === EXPORT_IMAGE_ID;
 
-      console.log('vistate layers', visState.layers);
-      console.log('vistate layers type', visState.layers.map(l => l.type));
-
       const theme = this.availableThemeSelector(this.props);
       return (
         <ThemeProvider theme={theme}>

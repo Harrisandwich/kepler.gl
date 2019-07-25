@@ -52,8 +52,6 @@ import {
   getLinearDomain
 } from 'utils/data-scale-utils';
 
-import {getFieldDomain} from 'utils/filter-utils';
-
 /**
  * Approx. number of points to sample in a large data set
  * @type {number}
@@ -305,7 +303,7 @@ export default class Layer {
 
       textLabel: [DEFAULT_TEXT_LABEL],
 
-      animation: {enabled: false} //TODO: add to false
+      animation: {enabled: false} // TODO: add to false
     };
   }
 
@@ -752,30 +750,6 @@ export default class Layer {
     this.validateVisualChannel(channel);
     // calculate layer channel domain
     const updatedDomain = this.calculateLayerDomain(dataset, visualChannel);
-
-    // create animation if field is indexby time
-    const field = this.config[this.visualChannels[channel].field];
-    if (
-      field &&
-      field.indexBy &&
-      field.indexBy.type === ALL_FIELD_TYPES.timestamp
-    ) {
-      const datasetId = this.config.dataId;
-      // const timeDomain = getTimeAnimationDomain(
-      //   datasets[datasetId].allData,
-      //   field.indexBy
-      // );
-      this.updateLayerConfig({
-        animation: {
-          domain: timeDomain,
-          // duration: timeDomain.duration,
-          //duration: 250,
-          // speed: 1000,
-          currentTime: timeDomain.domain[0]
-        }
-      });
-      this.updateLayerConfig({[visualChannel.domain]: updatedDomain});
-    }
   }
 
   calculateLayerDomain(dataset, visualChannel) {

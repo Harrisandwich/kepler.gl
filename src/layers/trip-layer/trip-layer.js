@@ -23,7 +23,6 @@ import uniq from 'lodash.uniq';
 
 import Layer, {colorMaker} from '../base-layer';
 import {TripsLayer as DeckGLTripsLayer} from 'deck.gl';
-import {GeoJsonLayer as DeckGLGeoJsonLayer} from 'deck.gl';
 
 import {hexToRgb} from 'utils/color-utils';
 import {
@@ -191,7 +190,7 @@ export default class TripLayer extends Layer {
   // TODO: fix complexity
   /* eslint-disable complexity */
   formatLayerData(_, allData, filteredIndex, oldLayerData, opt = {}) {
-    //to-do: parse segment from allData
+    // to-do: parse segment from allData
     const {
       colorScale,
       colorField,
@@ -209,8 +208,7 @@ export default class TripLayer extends Layer {
       radiusField,
       radiusDomain,
       radiusScale,
-      visConfig,
-      animationConfig
+      visConfig
     } = this.config;
 
     const {
@@ -249,15 +247,6 @@ export default class TripLayer extends Layer {
         .map(i => this.dataToFeature[i])
         .filter(d => d);
     }
-
-    // fill color
-    const cScale =
-      colorField &&
-      this.getVisChannelScale(
-        colorScale,
-        colorDomain,
-        colorRange.colors.map(hexToRgb)
-      );
 
     // stroke color
     const scScale =
@@ -425,8 +414,6 @@ export default class TripLayer extends Layer {
       }
     };
 
-    console.log('trip visConfig', visConfig);
-
     return [
       new DeckGLTripsLayer({
         ...layerProps,
@@ -435,8 +422,8 @@ export default class TripLayer extends Layer {
         data: data.data,
         getPath: d => d.geometry.coordinates.map(coord => coord.slice(0, 2)),
         getTimestamps: d => d.geometry.coordinates.map(coord => coord[3]),
-        getColor: data.getColor, //d =>
-        //d.Properties.vendor === 0 ? [253, 128, 93] : [23, 184, 190], //to change
+        getColor: data.getColor, // d =>
+        // d.Properties.vendor === 0 ? [253, 128, 93] : [23, 184, 190], //to change
         opacity: 0.3,
         widthMinPixels: 2,
         rounded: true,

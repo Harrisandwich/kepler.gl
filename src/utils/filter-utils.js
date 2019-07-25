@@ -214,11 +214,6 @@ export function getFieldDomain(data, field) {
   }
 }
 
-export function getCommenStep(domain) {
-  const steps = domain.map((d, i) => (i === 0 ? 0 : domain[i] - domain[i - 1]));
-  return Number(getMode(steps));
-}
-
 /**
  * Filter data based on an array of filters
  *

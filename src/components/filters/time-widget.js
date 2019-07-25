@@ -21,7 +21,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import {createSelector} from 'reselect';
-import Slider from 'components/common/slider/slider';
 
 import FieldSelector from 'components/common/field-selector';
 import {
@@ -145,9 +144,9 @@ export class TimeWidget extends Component {
     this.setState({showSpeedControl: !this.state.showSpeedControl});
   };
 
-  //fields = { datasets[filters[enlargedFilterIdx].dataId].fields }
+  // fields = { datasets[filters[enlargedFilterIdx].dataId].fields }
 
-  //TODO:(H) make this proper: purpose is to shoe only numerical fields from dataset
+  // TODO:(H) make this proper: purpose is to shoe only numerical fields from dataset
   // fieldSelector = props => props.fields;
   // yAxisFieldsSelector = createSelector(
   //   this.fieldSelector,
@@ -155,8 +154,6 @@ export class TimeWidget extends Component {
   // );
 
   render() {
-    console.log('this.fieldSelector', this.props.fields);
-
     const {
       enlargeFilter,
       filters,
@@ -164,8 +161,7 @@ export class TimeWidget extends Component {
       setFilterPlot,
       toggleAnimation,
       updateAnimationSpeed,
-      width,
-      layers
+      width
     } = this.props;
 
     const enlargedIdx = filters.findIndex(f => f.enlarged);

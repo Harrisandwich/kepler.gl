@@ -50,7 +50,6 @@ export function findDefaultLayer(dataset, layerClasses) {
       const hasBothGeojsonAndTrip =
         layers.some(l => l.type === 'trip') &&
         layers.some(l => l.type === 'geojson');
-      console.log('hasBothGeojsonAndTrip', hasBothGeojsonAndTrip);
       hasBothGeojsonAndTrip
         ? (layers = layers.concat(newLayers).filter(l => l.type !== 'geojson'))
         : (layers = layers.concat(newLayers));
@@ -103,37 +102,7 @@ export function getLightSettingsFromBounds(bounds) {
     : DEFAULT_LIGHT_SETTINGS;
 }
 
-export function checkGeoJsonHasTs(datasets) {
-  // const datasetId = Object.keys(datasets);
-  // const dataContent = datasets[datasetId].allData;
-  // console.log('condition', dataContent[0][0].geometry);
-  // const hasTs = 1;
-  // // dataContent[0] !== undefined &&
-  // // dataContent[0].geometry !== undefined &&
-  // // dataContent[0].geometry.coordinates !== undefined
-  // //   ? dataContent
-  // //       .map(d => d[0].geometry.coordinates.map(coord => coord.length))
-  // //       .flat()
-  // //       .every(n => n === 4)
-  // //   : false;
-  // return hasTs;
-
-  try {
-    const datasetId = Object.keys(datasets);
-    const dataContent = datasets[datasetId].allData;
-    dataContent[0] !== undefined &&
-    dataContent[0].geometry !== undefined &&
-    dataContent[0].geometry.coordinates !== undefined
-      ? dataContent
-          .map(d => d[0].geometry.coordinates.map(coord => coord.length))
-          .flat()
-          .every(n => n === 4)
-      : false;
-    return hasTs;
-  } catch (e) {
-    return null;
-  }
-}
+// TODO: add function to check geoJsonHasTs/data is trip layer animatable
 
 export function getTimeAnimationDomain(datasets, timestampIndex) {
   const datasetId = Object.keys(datasets);

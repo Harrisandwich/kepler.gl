@@ -43,8 +43,7 @@ import {createNewDataEntry} from 'utils/dataset-utils';
 import {
   findDefaultLayer,
   calculateLayerData,
-  getTimeAnimationDomain,
-  checkGeoJsonHasTs
+  getTimeAnimationDomain
 } from 'utils/layer-utils/layer-utils';
 
 import {
@@ -171,7 +170,7 @@ export const INITIAL_VIS_STATE = {
   // defaults layer classes
   layerClasses: LayerClasses,
 
-  //default animation
+  // default animation
   animationConfig: {
     domain: [0, 2000],
     currentTime: 0,
@@ -641,7 +640,7 @@ export const updateAnimationSpeedUpdater = (state, action) => ({
   )
 });
 
-//TODO: refine time playback function
+// TODO: refine time playback function
 
 /**
  * Trigger animations to play
@@ -678,9 +677,9 @@ export const playAnimationUpdater = (state, action) => {
 
 export const enableLayerAnimationUpdater = (state, action) => {
   const {oldLayer, datasets} = action;
-  //if (checkGeoJsonHasTs(datasets)) {
+  // if (checkGeoJsonHasTs(datasets)) {
   const [minTs, maxTs] = getTimeAnimationDomain(datasets, 3);
-  //const idx = state.layers.findIndex(l => l.id === layer.id);
+  // const idx = state.layers.findIndex(l => l.id === layer.id);
 
   const newLayers = state.layers.map(layer =>
     layer.id === oldLayer.id
@@ -1187,7 +1186,6 @@ export const updateVisDataUpdater = (state, action) => {
   const datasets = Array.isArray(action.datasets)
     ? action.datasets
     : [action.datasets];
-  console.log(datasets);
   if (action.config) {
     // apply config if passed from action
     state = receiveMapConfigUpdater(state, {
@@ -1202,7 +1200,6 @@ export const updateVisDataUpdater = (state, action) => {
     }),
     {}
   );
-  console.log(newDateEntries);
   if (!Object.keys(newDateEntries).length) {
     return state;
   }

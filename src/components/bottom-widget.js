@@ -23,9 +23,6 @@ import PropTypes from 'prop-types';
 import TimeWidgetFactory from './filters/time-widget';
 import AnimationControlFactory from './common/animation-control/animation-slider';
 import {WidgetContainer} from 'components/common/styled-components';
-import {checkGeoJsonHasTs} from 'utils/layer-utils/layer-utils';
-
-import {findDefaultLayer} from 'utils/layer-utils/layer-utils';
 
 const propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object),
@@ -61,10 +58,6 @@ export default function BottomWidgetFactory(TimeWidget, AnimationControl) {
       : containerW;
 
     const animatedLayer = layers.find(l => l.type === 'trip');
-    //const animatedLayer = layers.find(l => l.config.animation.enabled);
-    // const dataHasTs = checkGeoJsonHasTs(datasets);
-    // console.log('dataHasTs', dataHasTs);
-    console.log('animatedLayer ? ', animatedLayer);
     return (
       <WidgetContainer width={900}>
         {animatedLayer ? (

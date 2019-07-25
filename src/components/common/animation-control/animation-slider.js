@@ -7,12 +7,7 @@ import Slider from 'components/common/slider/slider';
 import {WidgetContainer} from 'components/common/styled-components';
 import {Play, Reset, Pause} from 'components/common/icons';
 import {Button, ButtonGroup} from 'components/common/styled-components';
-import {
-  getTimeWidgetTitleFormatter,
-  getTimeAnimationDomain
-} from 'utils/filter-utils';
-
-//import {getTimeAnimationDomain} from 'utils/la-utils';
+import {getTimeWidgetTitleFormatter} from 'utils/filter-utils';
 
 const SliderWrapper = styled.div`
   display: flex;
@@ -107,15 +102,9 @@ const AnimationControlFactory = () => {
 
     onSlider1Change = val => {
       this.props.playAnimation(val);
-      console.log('slider1val', val);
     };
 
     _resetAnimation = () => {
-      // const {domain, value} = this.props;
-      // const value0 = domain[0];
-      // const value1 = value0 + value[1] - value[0];
-      // this.props.onChange([value0, value1]);
-
       this._currentStep = -1;
       this._startAnimation();
     };
@@ -133,7 +122,6 @@ const AnimationControlFactory = () => {
 
     _nextFrame = () => {
       const {domain} = this.props.animation;
-      console.log('domain', domain[0], domain[1]);
       this._currentStep > domain[1] - domain[0] - 1
         ? 0
         : (this._currentStep += 3);
@@ -150,15 +138,10 @@ const AnimationControlFactory = () => {
     };
 
     render() {
-      const {animation, width, sliderHandleWidth, onChange} = this.props;
+      const {animation, width} = this.props;
       const {currentTime, domain} = animation;
       // const plotWidth =  width - sliderHandleWidth;
-      const timeFormat = this.titleFormatter(this.props);
-
-      // console.log(
-      //   'getTimeAnimationDomain',
-      //   getTimeAnimationDomain(this.props.datasets)
-      // );
+      // const timeFormat = this.titleFormatter(this.props);
 
       return (
         <WidgetContainer width={width}>

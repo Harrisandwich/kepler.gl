@@ -179,7 +179,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
         datasets,
         layerOrder,
         openModal,
-        enlargeFilter,
+        // enlargeFilter,
         enableLayerAnimation
       } = this.props;
       const defaultDataset = Object.keys(datasets)[0];

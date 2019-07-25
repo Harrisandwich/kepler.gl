@@ -30,7 +30,7 @@ export default class TripLayerIcon extends Component {
   };
 
   static defaultProps = {
-    //height: null,
+    // height: null,
     size: 'tiny',
     height: '16px',
     predefinedClassName: 'trip-layer-icon'
