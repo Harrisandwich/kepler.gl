@@ -21,7 +21,6 @@
 import {DEFAULT_LIGHT_SETTINGS} from 'constants/default-settings';
 import min from 'lodash.min';
 import max from 'lodash.max';
-
 /**
  * Find default layers from fields
  *
@@ -37,6 +36,7 @@ export function findDefaultLayer(dataset, layerClasses) {
   let layers = [];
   Object.keys(layerClasses).forEach(lc => {
     const layerProps = layerClasses[lc].findDefaultLayerProps(dataset);
+
     if (layerProps) {
       const newLayers = (Array.isArray(layerProps)
         ? layerProps
@@ -52,6 +52,7 @@ export function findDefaultLayer(dataset, layerClasses) {
       const hasBothGeojsonAndTrip =
         layers.some(l => l.type === 'trip') &&
         layers.some(l => l.type === 'geojson');
+      // If defaulted to both trip & geojson layers, prioritize showing trip layer
       hasBothGeojsonAndTrip
         ? (layers = layers.concat(newLayers).filter(l => l.type !== 'geojson'))
         : (layers = layers.concat(newLayers));

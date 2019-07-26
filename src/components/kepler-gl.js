@@ -299,7 +299,6 @@ function KeplerGlFactory(
           ));
 
       const isExporting = uiState.currentModal === EXPORT_IMAGE_ID;
-
       const theme = this.availableThemeSelector(this.props);
       return (
         <ThemeProvider theme={theme}>

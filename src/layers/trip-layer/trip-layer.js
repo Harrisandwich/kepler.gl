@@ -20,6 +20,7 @@
 
 import memoize from 'lodash.memoize';
 import uniq from 'lodash.uniq';
+import isEqual from 'lodash.isEqual';
 
 import Layer, {colorMaker} from '../base-layer';
 import {TripsLayer as DeckGLTripsLayer} from 'deck.gl';
@@ -134,7 +135,7 @@ export default class TripLayer extends Layer {
     return this.getFeature(this.config.columns);
   }
 
-  static findDefaultLayerProps({label, fields}) {
+  static findDefaultLayerProps({label, fields, data}) {
     const geojsonColumns = fields
       .filter(f => f.type === 'geojson')
       .map(f => f.name);
@@ -143,8 +144,27 @@ export default class TripLayer extends Layer {
       geojson: uniq([...GEOJSON_FIELDS.geojson, ...geojsonColumns])
     };
 
+    const containOnlyLineString = isEqual(
+      uniq(data.map(d => d[0].geometry.type).flat()),
+      ['LineString']
+    );
+
+    const contain4elementsInLineString = isEqual(
+      uniq(
+        data
+          .map(d => d[0].geometry.coordinates.map(coord => coord.length))
+          .flat()
+      ),
+      [4]
+    );
+
     const foundColumns = this.findDefaultColumnField(defaultColumns, fields);
-    if (!foundColumns || !foundColumns.length) {
+    if (
+      !foundColumns ||
+      !foundColumns.length ||
+      !contain4elementsInLineString ||
+      !containOnlyLineString
+    ) {
       return [];
     }
 
@@ -413,7 +433,7 @@ export default class TripLayer extends Layer {
         idx,
         data: data.data,
         getPath: d => d.geometry.coordinates.map(coord => coord.slice(0, 2)),
-        getTimestamps: d => d.geometry.coordinates.map(coord => coord[3]),
+        getTimestamps: d => d.geometry.coordinates.map(coord => coord[1]),
         getColor: data.getColor,
         opacity: 0.3,
         widthMinPixels: 2,
