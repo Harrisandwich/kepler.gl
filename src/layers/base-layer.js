@@ -746,7 +746,6 @@ export default class Layer {
 
   updateLayerVisualChannel(dataset, channel) {
     const visualChannel = this.visualChannels[channel];
-
     this.validateVisualChannel(channel);
   }
 

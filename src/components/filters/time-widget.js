@@ -98,30 +98,6 @@ const TopSectionWrapper = styled.div`
   }
 `;
 
-/* eslint-disable no-unused-vars */
-const Tabs = styled.div`
-  padding-right: 76px;
-`;
-
-const Tab = styled.div`
-  border-bottom: 1px solid
-    ${props => (props.active ? props.theme.textColorHl : 'transparent')};
-  color: ${props =>
-    props.active ? props.theme.textColorHl : props.theme.labelColor};
-  display: inline-block;
-  font-size: 12px;
-  height: 24px;
-  margin-right: 4px;
-  text-align: center;
-  width: 24px;
-  line-height: 24px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-/* eslint-enable no-unused-vars */
-
 const StyledTitle = styled(CenterFlexbox)`
   flex-grow: 0;
   color: ${props => props.theme.textColor};
@@ -144,12 +120,6 @@ export class TimeWidget extends Component {
     this.setState({showSpeedControl: !this.state.showSpeedControl});
   };
 
-  // fieldSelector = props => props.fields;
-  // yAxisFieldsSelector = createSelector(
-  //   this.fieldSelector,
-  //   fields => fields.filter(f => f.type === 'integer' || f.type === 'real')
-  // );
-
   render() {
     const {
       enlargeFilter,
@@ -158,7 +128,8 @@ export class TimeWidget extends Component {
       setFilterPlot,
       toggleAnimation,
       updateAnimationSpeed,
-      width
+      width,
+      datasets
     } = this.props;
 
     const enlargedIdx = filters.findIndex(f => f.enlarged);
@@ -186,7 +157,7 @@ export class TimeWidget extends Component {
               </CenterFlexbox>
               <div className="bottom-widget__field-select">
                 <FieldSelector
-                  fields={[1, 2]}
+                  fields={datasets[filter.dataId].fields}
                   placement="top"
                   id="selected-time-widget-field"
                   value={filter.yAxis ? filter.yAxis.name : null}

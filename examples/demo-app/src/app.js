@@ -224,7 +224,7 @@ class App extends Component {
             info: {label: 'Trip animation'},
             // data: processGeojson(sampleGeojsonPoints)
             data: processGeojson(sampleanimate)
-            //for testing: data stored here: https://drive.google.com/file/d/1n0zKKGlKKpifE___5HUS8NwYnRujHaET/view?usp=sharing
+            // for testing: data stored here: https://drive.google.com/file/d/1n0zKKGlKKpifE___5HUS8NwYnRujHaET/view?usp=sharing
           } /* ,
           {
             info: {label: 'SF Zip Geo'},

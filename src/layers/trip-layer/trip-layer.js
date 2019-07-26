@@ -31,11 +31,7 @@ import {
   featureToDeckGlGeoType
 } from './geojson-utils';
 import TripLayerIcon from './trip-layer-icon';
-import {
-  GEOJSON_FIELDS,
-  HIGHLIGH_COLOR_3D,
-  CHANNEL_SCALES
-} from 'constants/default-settings';
+import {GEOJSON_FIELDS, CHANNEL_SCALES} from 'constants/default-settings';
 
 export const tripVisConfigs = {
   opacity: 'opacity',
@@ -419,12 +415,12 @@ export default class TripLayer extends Layer {
         getPath: d => d.geometry.coordinates.map(coord => coord.slice(0, 2)),
         getTimestamps: d => d.geometry.coordinates.map(coord => coord[3]),
         getColor: data.getColor,
-        highlightColor: HIGHLIGH_COLOR_3D,
         opacity: 0.3,
         widthMinPixels: 2,
         rounded: true,
         trailLength: visConfig.trailLength,
         currentTime: animationConfig.currentTime,
+        lightSettings,
         updateTriggers
       })
     ];

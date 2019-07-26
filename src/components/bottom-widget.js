@@ -62,7 +62,7 @@ export default function BottomWidgetFactory(TimeWidget, AnimationControl) {
       .filter(l => l.type === 'trip')
       .some(l => l.config.isVisible);
 
-    //show playback control if layers contain trip layer & at least one trip layer is visible
+    // show playback control if layers contain trip layer & at least one trip layer is visible
     return (
       <WidgetContainer width={900}>
         {animatedLayer && tripLayerVisible ? (
@@ -77,18 +77,13 @@ export default function BottomWidgetFactory(TimeWidget, AnimationControl) {
         ) : (
           <TimeWidget
             filters={filters}
-            // fields={datasets[filters[enlargedFilterIdx].dataId].fields}
             setFilterPlot={visStateActions.setFilterPlot}
             setFilter={visStateActions.setFilter}
             toggleAnimation={visStateActions.toggleAnimation}
             updateAnimationSpeed={visStateActions.updateAnimationSpeed}
             enlargeFilter={visStateActions.enlargeFilter}
             width={Math.min(maxWidth, enlargedFilterWidth)}
-            // isAnyFilterAnimating={isAnyFilterAnimating}
-            // enlargedIdx={enlargedFilterIdx}
-            // filter={filters[enlargedFilterIdx]}
-            layers={layers}
-            // TODO: change to layer filtered by idx
+            datasets={datasets}
           />
         )}
       </WidgetContainer>
