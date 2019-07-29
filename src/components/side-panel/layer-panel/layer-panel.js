@@ -50,8 +50,7 @@ function LayerPanelFactory() {
       layerVisConfigChange: PropTypes.func,
       layerVisualChannelConfigChange: PropTypes.func,
       playAnimation: PropTypes.func,
-      enableLayerAnimation: PropTypes.func,
-      enlargeFilter: PropTypes.func
+      enableLayerAnimation: PropTypes.func
     };
 
     updateLayerConfig = newProp => {
@@ -137,9 +136,7 @@ function LayerPanelFactory() {
               layerTypeOptions={layerTypeOptions}
               openModal={this.props.openModal}
               updateLayerConfig={this.updateLayerConfig}
-              updateLayerVisualChannelConfig={
-                this.updateLayerVisualChannelConfig
-              }
+              updateLayerVisualChannelConfig={this.updateLayerVisualChannelConfig}
               updateLayerType={this.updateLayerType}
               updateLayerTextLabel={this.updateLayerTextLabel}
               updateLayerVisConfig={this.updateLayerVisConfig}

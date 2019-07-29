@@ -120,8 +120,7 @@ export default function SidePanelFactory(
       this.props.uiStateActions.openDeleteModal(key);
     };
 
-    _onExportImage = () =>
-      this.props.uiStateActions.toggleModal(EXPORT_IMAGE_ID);
+    _onExportImage = () => this.props.uiStateActions.toggleModal(EXPORT_IMAGE_ID);
 
     _onExportData = () => this.props.uiStateActions.toggleModal(EXPORT_DATA_ID);
 
@@ -160,7 +159,8 @@ export default function SidePanelFactory(
         showDatasetTable: this._showDatasetTable,
         showAddDataModal: this._showAddDataModal,
         removeLayer: visStateActions.removeLayer,
-        removeDataset: this._removeDataset
+        removeDataset: this._removeDataset,
+        enlargeFilter: visStateActions.enlargeFilter
       };
 
       const filterManagerActions = {

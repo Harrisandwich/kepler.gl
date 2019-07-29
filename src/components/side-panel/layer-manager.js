@@ -145,8 +145,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
       removeDataset: PropTypes.func.isRequired,
       showDatasetTable: PropTypes.func.isRequired,
       updateLayerBlending: PropTypes.func.isRequired,
-      updateLayerOrder: PropTypes.func.isRequired,
-      enlargeFilter: PropTypes.func.isRequired
+      updateLayerOrder: PropTypes.func.isRequired
     };
 
     layerClassSelector = props => props.layerClasses;
@@ -187,8 +186,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
 
       const layerActions = {
         layerConfigChange: this.props.layerConfigChange,
-        layerVisualChannelConfigChange: this.props
-          .layerVisualChannelConfigChange,
+        layerVisualChannelConfigChange: this.props.layerVisualChannelConfigChange,
         layerTypeChange: this.props.layerTypeChange,
         layerVisConfigChange: this.props.layerVisConfigChange,
         layerTextLabelChange: this.props.layerTextLabelChange,

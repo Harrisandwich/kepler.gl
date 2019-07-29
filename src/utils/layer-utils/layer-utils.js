@@ -34,27 +34,34 @@ export function findDefaultLayer(dataset, layerClasses) {
 
   let layers = [];
   Object.keys(layerClasses).forEach(lc => {
-    const layerProps = layerClasses[lc].findDefaultLayerProps(dataset);
+    if (!layerClasses[lc].findDefaultLayerProps) {
+      return;
+    }
+
+    const {props: layerProps, foundLayer} = layerClasses[lc].findDefaultLayerProps(
+      dataset
+    );
 
     if (layerProps) {
-      const newLayers = (Array.isArray(layerProps)
-        ? layerProps
-        : [layerProps]
-      ).map(props => {
-        const layer = new layerClasses[lc]({...props, dataId: dataset.id});
+      const newLayers = (Array.isArray(layerProps) ? layerProps : [layerProps]).map(
+        props => {
+          const layer = new layerClasses[lc]({...props, dataId: dataset.id});
 
-        return typeof layer.setInitialLayerConfig === 'function'
-          ? layer.setInitialLayerConfig(dataset.allData)
-          : layer;
-      });
+          return typeof layer.setInitialLayerConfig === 'function'
+            ? layer.setInitialLayerConfig(dataset.allData)
+            : layer;
+        }
+      );
 
-      const hasBothGeojsonAndTrip =
-        layers.some(l => l.type === 'trip') &&
-        layers.some(l => l.type === 'geojson');
-      // If defaulted to both trip & geojson layers, prioritize showing trip layer
-      hasBothGeojsonAndTrip
-        ? (layers = layers.concat(newLayers).filter(l => l.type !== 'geojson'))
-        : (layers = layers.concat(newLayers));
+      layers = foundLayer.concat(newLayers);
+
+      // const hasBothGeojsonAndTrip =
+      //   layers.some(l => l.type === 'trip') &&
+      //   layers.some(l => l.type === 'geojson');
+      // // If defaulted to both trip & geojson layers, prioritize showing trip layer
+      // hasBothGeojsonAndTrip
+      //   ? (layers = layers.concat(newLayers).filter(l => l.type !== 'geojson'))
+      //   : (layers = layers.concat(newLayers));
     }
   });
 

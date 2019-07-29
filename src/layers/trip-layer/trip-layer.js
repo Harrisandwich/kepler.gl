@@ -53,7 +53,6 @@ export const tripVisConfigs = {
   trailLength: 'trailLength',
 
   sizeRange: 'strokeWidthRange',
-  radiusRange: 'radiusRange',
   heightRange: 'elevationRange',
   elevationScale: 'elevationScale',
   stroked: 'stroked',
@@ -120,15 +119,6 @@ export default class TripLayer extends Layer {
         key: 'height',
         channelScaleType: 'size',
         condition: config => config.visConfig.enable3d
-      },
-      radius: {
-        property: 'radius',
-        field: 'radiusField',
-        scale: 'radiusScale',
-        domain: 'radiusDomain',
-        range: 'radiusRange',
-        key: 'radius',
-        channelScaleType: 'radius'
       }
     };
   }
@@ -137,10 +127,8 @@ export default class TripLayer extends Layer {
     return this.getFeature(this.config.columns);
   }
 
-  static findDefaultLayerProps({label, fields, data}) {
-    const geojsonColumns = fields
-      .filter(f => f.type === 'geojson')
-      .map(f => f.name);
+  static findDefaultLayerProps({label, fields, data}, foundLayers) {
+    const geojsonColumns = fields.filter(f => f.type === 'geojson').map(f => f.name);
 
     const defaultColumns = {
       geojson: uniq([...GEOJSON_FIELDS.geojson, ...geojsonColumns])
@@ -153,9 +141,7 @@ export default class TripLayer extends Layer {
 
     const contain4elementsInLineString = isEqual(
       uniq(
-        data
-          .map(d => d[0].geometry.coordinates.map(coord => coord.length))
-          .flat()
+        data.map(d => d[0].geometry.coordinates.map(coord => coord.length)).flat()
       ),
       [4]
     );
@@ -170,13 +156,15 @@ export default class TripLayer extends Layer {
       return [];
     }
 
-    return foundColumns.map(columns => ({
-      label:
-        (typeof label === 'string' && label.replace(/\.[^/.]+$/, '')) ||
-        this.type,
-      columns,
-      isVisible: true
-    }));
+    return {
+      props: foundColumns.map(columns => ({
+        label:
+          (typeof label === 'string' && label.replace(/\.[^/.]+$/, '')) || this.type,
+        columns,
+        isVisible: true
+      })),
+      foundLayers: foundLayers.filter(l => l.type !== 'geojson')
+    };
   }
 
   getDefaultLayerConfig(props = {}) {
@@ -257,9 +245,7 @@ export default class TripLayer extends Layer {
       geojsonData = oldLayerData.data;
     } else {
       // filteredIndex is a reference of index in allData which can map to feature
-      geojsonData = filteredIndex
-        .map(i => this.dataToFeature[i])
-        .filter(d => d);
+      geojsonData = filteredIndex.map(i => this.dataToFeature[i]).filter(d => d);
     }
 
     // stroke color
@@ -284,8 +270,7 @@ export default class TripLayer extends Layer {
 
     // point radius
     const rScale =
-      radiusField &&
-      this.getVisChannelScale(radiusScale, radiusDomain, radiusRange);
+      radiusField && this.getVisChannelScale(radiusScale, radiusDomain, radiusRange);
 
     return {
       data: geojsonData,
@@ -348,9 +333,7 @@ export default class TripLayer extends Layer {
 
     // keep a record of what type of geometry the collection has
     const featureTypes = allFeatures.reduce((accu, f) => {
-      const geoType = featureToDeckGlGeoType(
-        f && f.geometry && f.geometry.type
-      );
+      const geoType = featureToDeckGlGeoType(f && f.geometry && f.geometry.type);
 
       if (geoType) {
         accu[geoType] = true;
