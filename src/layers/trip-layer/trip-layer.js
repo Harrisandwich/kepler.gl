@@ -30,7 +30,7 @@ import {
   getGeojsonDataMaps,
   getGeojsonBounds,
   featureToDeckGlGeoType
-} from './geojson-utils';
+} from '../geojson-layer/geojson-utils';
 import TripLayerIcon from './trip-layer-icon';
 import {GEOJSON_FIELDS, CHANNEL_SCALES} from 'constants/default-settings';
 

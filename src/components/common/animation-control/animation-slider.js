@@ -4,9 +4,12 @@ import {createSelector} from 'reselect';
 import moment from 'moment';
 
 import Slider from 'components/common/slider/slider';
-import {WidgetContainer} from 'components/common/styled-components';
+import {
+  WidgetContainer,
+  Button,
+  ButtonGroup
+} from 'components/common/styled-components';
 import {Play, Reset, Pause} from 'components/common/icons';
-import {Button, ButtonGroup} from 'components/common/styled-components';
 import {getTimeWidgetTitleFormatter} from 'utils/filter-utils';
 
 const SliderWrapper = styled.div`
@@ -35,7 +38,7 @@ const IconButton = styled(Button)`
   }
 `;
 
-const isUnixTs = 1;
+const isUnixTs = true;
 
 const buttonHeight = '16px';
 const AnimationControls = ({

@@ -135,22 +135,19 @@ function LayerPanelFactory() {
             onRemoveLayer={this._removeLayer}
           />
           {isConfigActive && (
-            <div>
-              <LayerConfigurator
-                layer={layer}
-                datasets={datasets}
-                layerTypeOptions={layerTypeOptions}
-                openModal={this.props.openModal}
-                updateLayerConfig={this.updateLayerConfig}
-                updateLayerVisualChannelConfig={
-                  this.updateLayerVisualChannelConfig
-                }
-                updateLayerType={this.updateLayerType}
-                updateLayerTextLabel={this.updateLayerTextLabel}
-                updateLayerVisConfig={this.updateLayerVisConfig}
-              />
-              {/* TODO fix this modal */}
-            </div>
+            <LayerConfigurator
+              layer={layer}
+              datasets={datasets}
+              layerTypeOptions={layerTypeOptions}
+              openModal={this.props.openModal}
+              updateLayerConfig={this.updateLayerConfig}
+              updateLayerVisualChannelConfig={
+                this.updateLayerVisualChannelConfig
+              }
+              updateLayerType={this.updateLayerType}
+              updateLayerTextLabel={this.updateLayerTextLabel}
+              updateLayerVisConfig={this.updateLayerVisConfig}
+            />
           )}
         </PanelWrapper>
       );

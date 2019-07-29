@@ -303,7 +303,7 @@ export default class Layer {
 
       textLabel: [DEFAULT_TEXT_LABEL],
 
-      animation: {enabled: false} // TODO: add to false
+      animation: {enabled: false}
     };
   }
 
@@ -747,6 +747,9 @@ export default class Layer {
   updateLayerVisualChannel(dataset, channel) {
     const visualChannel = this.visualChannels[channel];
     this.validateVisualChannel(channel);
+    // calculate layer channel domain
+    const updatedDomain = this.calculateLayerDomain(dataset, visualChannel);
+    this.updateLayerConfig({[visualChannel.domain]: updatedDomain});
   }
 
   calculateLayerDomain(dataset, visualChannel) {

@@ -19,8 +19,7 @@
 // THE SOFTWARE.
 
 import {DEFAULT_LIGHT_SETTINGS} from 'constants/default-settings';
-import min from 'lodash.min';
-import max from 'lodash.max';
+import {extent} from 'd3-array';
 /**
  * Find default layers from fields
  *
@@ -119,9 +118,7 @@ export function getTimeAnimationDomainPerDataset(dataset, timestampIndex) {
     .map(d => d[0].geometry.coordinates.map(coord => coord[timestampIndex]))
     .flat();
 
-  const minTime = min(timeField);
-  const maxTime = max(timeField);
-  return [minTime, maxTime];
+  return extent(timeField);
 }
 
 // Get time animation domain for multiple datasets
@@ -135,7 +132,7 @@ export function getTimeAnimationDomain(datasets, timestampIndex) {
       maxRange.push(getTimeAnimationDomainPerDataset(d, timestampIndex)[1]);
     }
   });
-  const mmin = min(minRange);
-  const mmax = max(maxRange);
+  const mmin = extent(minRange)[0];
+  const mmax = extent(maxRange)[1];
   return [mmin, mmax];
 }

@@ -398,7 +398,7 @@ export function processRowObject(rawData) {
  * 			"type" : "Point",
  * 			"coordinates" : [ -71.073283, 42.417500 ]
  * 		}
- * 	}]same
+ * 	}]
  * };
  *
  * dispatch(addDataToMap({

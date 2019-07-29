@@ -35,7 +35,6 @@ export const pointPosAccessor = ({lat, lng, altitude}) => d => [
   d.data[lng.fieldIdx],
   // lat
   d.data[lat.fieldIdx],
-  // altitude
   altitude && altitude.fieldIdx > -1 ? d.data[altitude.fieldIdx] : 0
 ];
 
@@ -71,7 +70,7 @@ export const pointVisConfigs = {
   }
 };
 
-export default class getLineColorPointLayer extends Layer {
+export default class PointLayer extends Layer {
   constructor(props) {
     super(props);
 

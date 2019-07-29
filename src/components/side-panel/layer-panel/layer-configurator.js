@@ -773,7 +773,7 @@ export default class LayerConfigurator extends Component {
           </ConfigGroupCollapsibleContent>
         </LayerConfigGroup>
 
-        {/* Trail Length TODO change condition (only show in trip layer) WIP */}
+        {/* Trail Length*/}
         <LayerConfigGroup
           {...visConfiguratorProps}
           {...(featureTypes.polygon ? LAYER_VIS_CONFIGS.stroked : {})}
@@ -787,58 +787,6 @@ export default class LayerConfigurator extends Component {
           />
           )
         </LayerConfigGroup>
-
-        {/* Elevation */}
-        {featureTypes.polygon && visConfig.filled ? (
-          <LayerConfigGroup
-            {...visConfiguratorProps}
-            {...LAYER_VIS_CONFIGS.enable3d}
-            collapsible
-          >
-            <VisConfigSlider
-              {...LAYER_VIS_CONFIGS.elevationScale}
-              {...visConfiguratorProps}
-              label={false}
-            />
-            <ConfigGroupCollapsibleContent>
-              <ChannelByValueSelector
-                channel={layer.visualChannels.height}
-                {...layerChannelConfigProps}
-              />
-              <VisConfigSwitch
-                {...visConfiguratorProps}
-                {...LAYER_VIS_CONFIGS.wireframe}
-              />
-            </ConfigGroupCollapsibleContent>
-          </LayerConfigGroup>
-        ) : null}
-
-        {/* Radius */}
-        {featureTypes.point ? (
-          <LayerConfigGroup label={'radius'} collapsible>
-            {!layer.config.radiusField ? (
-              <VisConfigSlider
-                {...LAYER_VIS_CONFIGS.radius}
-                {...visConfiguratorProps}
-                label={false}
-                disabled={Boolean(layer.config.radiusField)}
-              />
-            ) : (
-              <VisConfigSlider
-                {...LAYER_VIS_CONFIGS.radiusRange}
-                {...visConfiguratorProps}
-                label={false}
-                disabled={!layer.config.radiusField}
-              />
-            )}
-            <ConfigGroupCollapsibleContent>
-              <ChannelByValueSelector
-                channel={layer.visualChannels.radius}
-                {...layerChannelConfigProps}
-              />
-            </ConfigGroupCollapsibleContent>
-          </LayerConfigGroup>
-        ) : null}
       </StyledLayerVisualConfigurator>
     );
   }

@@ -22,13 +22,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TimeWidgetFactory from './filters/time-widget';
 import AnimationControlFactory from './common/animation-control/animation-slider';
-import {WidgetContainer} from 'components/common/styled-components';
+import {WidgetContainer} from './common/styled-components';
 
 const propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object),
   datasets: PropTypes.object,
   uiState: PropTypes.object,
-  visState: PropTypes.object,
+  layers: PropTypes.object,
+  animationConfig: PropTypes.object,
   visStateActions: PropTypes.object,
   sidePanelWidth: PropTypes.number,
   containerW: PropTypes.number
