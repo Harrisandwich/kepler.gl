@@ -30,7 +30,7 @@ const PICKER_STYLES = {
     width: '200px',
     padding: '10px 10px 8px',
     boxSizing: 'initial',
-    background: theme.panelBackground //'#29323C'
+    background: theme.panelBackground
   }
 };
 
