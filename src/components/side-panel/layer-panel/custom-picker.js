@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {SketchPicker} from 'react-color';
 import onClickOutside from 'react-onclickoutside';
+import {theme} from 'styles/base';
 
 // This was put in because 3rd party library react-color doesn't yet cater for customized color of child component <SketchField> which contains HEX/RGB input text box
 // Issue raised: https://github.com/casesandberg/react-color/issues/631
@@ -29,11 +30,7 @@ const PICKER_STYLES = {
     width: '200px',
     padding: '10px 10px 8px',
     boxSizing: 'initial',
-    background: '#29323C'
-  },
-  controls: {
-    display: 'flex',
-    color: '#FFF'
+    background: theme.panelBackground //'#29323C'
   }
 };
 
