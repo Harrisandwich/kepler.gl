@@ -640,30 +640,24 @@ export const updateAnimationSpeedUpdater = (state, action) => ({
   )
 });
 
-// TODO: refine time playback function
-
 /**
- * Trigger animations to play
+ * Update animation current time
  * @memberof visStateUpdaters
  * @param {Object} state `visState`
  * @param {Object} action action
+ * @param {Number} action.value current time value of action
  * @returns {Object} nextState
  * @public
  *
  */
 
-export const playAnimationUpdater = (state, action) => {
-  const {val} = action;
-
-  const newState = {
-    ...state,
-    animationConfig: {
-      ...state.animationConfig,
-      currentTime: val
-    }
-  };
-  return newState;
-};
+export const playAnimationUpdater = (state, {value}) => ({
+  ...state,
+  animationConfig: {
+    ...state.animationConfig,
+    currentTime: value
+  }
+});
 
 /**
  * Enable animation domain with the min and max of timestamps from geojson
@@ -677,38 +671,17 @@ export const playAnimationUpdater = (state, action) => {
 
 export const enableLayerAnimationUpdater = (state, action) => {
   const {oldLayer, datasets} = action;
-  // if (checkGeoJsonHasTs(datasets)) {
   const [minTs, maxTs] = getTimeAnimationDomain(datasets, 3);
-  // const idx = state.layers.findIndex(l => l.id === layer.id);
 
-  const newLayers = state.layers.map(layer =>
-    layer.id === oldLayer.id
-      ? layer.updateLayerConfig({
-          animation: {
-            enabled: true
-          }
-        })
-      : layer
-  );
-  // } else {
-  // }
   return {
     ...state,
-    layers: newLayers,
+    // layers: newLayers,
     animationConfig: {
       ...state.animationConfig,
       currentTime: minTs,
       domain: [minTs, maxTs]
     }
   };
-  // const newState = {
-  //   ...state,
-  //   animationConfig: {
-  //     ...state.animationConfig,
-  //     domain: [0, 2500]
-  //   }
-  // };
-  // return newState;
 };
 
 /**

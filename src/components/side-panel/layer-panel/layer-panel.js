@@ -104,10 +104,6 @@ function LayerPanelFactory() {
       this.props.removeLayer(this.props.idx);
     };
 
-    _initiatePlayback = () => {
-      this.props.enableLayerAnimation(this.props.layer, this.props.datasets);
-    };
-
     render() {
       const {layer, idx, datasets, layerTypeOptions} = this.props;
       const {config} = layer;

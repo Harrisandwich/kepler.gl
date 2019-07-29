@@ -59,7 +59,9 @@ export const tripVisConfigs = {
   stroked: 'stroked',
   filled: 'filled',
   enable3d: 'enable3d',
-  wireframe: 'wireframe'
+  wireframe: 'wireframe',
+
+  animation: {enabled: true}
 };
 
 export const geoJsonRequiredColumns = ['geojson'];

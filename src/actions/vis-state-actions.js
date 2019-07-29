@@ -320,14 +320,14 @@ export function updateAnimationSpeed(idx, speed) {
 /**
  * Change filter animation speed
  * @memberof visStateActions
- * @param {Number} val -  Current value of the slider
- * @returns {{type: ActionTypes.PLAY_ANIMATION, val: val}}
+ * @param {Number} value -  Current value of the slider
+ * @returns {{type: ActionTypes.PLAY_ANIMATION, value: value}}
  * @public
  */
-export function playAnimation(val) {
+export function playAnimation(value) {
   return {
     type: ActionTypes.PLAY_ANIMATION,
-    val
+    value
   };
 }
 

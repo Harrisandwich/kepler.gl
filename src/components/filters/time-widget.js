@@ -120,6 +120,12 @@ export class TimeWidget extends Component {
     this.setState({showSpeedControl: !this.state.showSpeedControl});
   };
 
+  fieldSelector = props => props.fields;
+  yAxisFieldsSelector = createSelector(
+    this.fieldSelector,
+    fields => fields.filter(f => f.type === 'integer' || f.type === 'real')
+  );
+
   render() {
     const {
       enlargeFilter,
@@ -157,7 +163,7 @@ export class TimeWidget extends Component {
               </CenterFlexbox>
               <div className="bottom-widget__field-select">
                 <FieldSelector
-                  fields={datasets[filter.dataId].fields}
+                  fields={this.yAxisFieldsSelector(datasets[filter.dataId])}
                   placement="top"
                   id="selected-time-widget-field"
                   value={filter.yAxis ? filter.yAxis.name : null}
