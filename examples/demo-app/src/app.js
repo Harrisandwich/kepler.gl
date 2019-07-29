@@ -48,7 +48,6 @@ const KeplerGl = require('kepler.gl/components').injectComponents([
 import sampleTripData from './data/sample-trip-data';
 import sampleGeojson from './data/sample-small-geojson';
 import sampleGeojsonPoints from './data/sample-geojson-points';
-import sampleanimate from './data/sample-animate';
 import sampleH3Data from './data/sample-hex-id-csv';
 import sampleIconCsv, {config as savedMapConfig} from './data/sample-icon-csv';
 import {addDataToMap, addNotification} from 'kepler.gl/actions';
@@ -63,7 +62,6 @@ const GlobalStyle = styled.div`
   font-weight: 400;
   font-size: 0.875em;
   line-height: 1.71429;
-
   *,
   *:before,
   *:after {
@@ -71,16 +69,13 @@ const GlobalStyle = styled.div`
     -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
-
   ul {
     margin: 0;
     padding: 0;
   }
-
   li {
     margin: 0;
   }
-
   a {
     text-decoration: none;
     color: ${props => props.theme.labelColor};
@@ -120,7 +115,7 @@ class App extends Component {
     //   window.setTimeout(this._showBanner, 3000);
     // }
     // load sample data
-    this._loadSampleData();
+    // this._loadSampleData();
     // Notifications
     // this._loadMockNotifications();
   }
@@ -161,8 +156,8 @@ class App extends Component {
   }
 
   _loadSampleData() {
-    // this._loadTripData();
-    this._loadGeojsonData();
+    this._loadTripData();
+    // this._loadGeojsonData();
     // this._loadIconData();
     // this._loadH3HexagonData();
   }
@@ -221,15 +216,13 @@ class App extends Component {
       addDataToMap({
         datasets: [
           {
-            info: {label: 'Trip animation'},
-            // data: processGeojson(sampleGeojsonPoints)
-            data: processGeojson(sampleanimate)
-            // for testing: data stored here: https://drive.google.com/file/d/1n0zKKGlKKpifE___5HUS8NwYnRujHaET/view?usp=sharing
-          } /* ,
+            info: {label: 'Bart Stops Geo'},
+            data: processGeojson(sampleGeojsonPoints)
+          },
           {
             info: {label: 'SF Zip Geo'},
             data: processGeojson(sampleGeojson)
-          } */
+          }
         ]
       })
     );

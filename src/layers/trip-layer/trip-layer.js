@@ -433,7 +433,7 @@ export default class TripLayer extends Layer {
         idx,
         data: data.data,
         getPath: d => d.geometry.coordinates.map(coord => coord.slice(0, 2)),
-        getTimestamps: d => d.geometry.coordinates.map(coord => coord[1]),
+        getTimestamps: d => d.geometry.coordinates.map(coord => coord[3]),
         getColor: data.getColor,
         opacity: 0.3,
         widthMinPixels: 2,
