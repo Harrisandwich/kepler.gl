@@ -46,10 +46,7 @@ export const tripVisConfigs = {
     group: 'stroke',
     property: 'thickness'
   },
-  strokeColor: 'strokeColor',
   colorRange: 'colorRange',
-  strokeColorRange: 'strokeColorRange',
-  radius: 'radius',
   trailLength: 'trailLength',
 
   sizeRange: 'strokeWidthRange',
@@ -95,21 +92,6 @@ export default class TripLayer extends Layer {
   get visualChannels() {
     return {
       ...super.visualChannels,
-      strokeColor: {
-        property: 'strokeColor',
-        field: 'strokeColorField',
-        scale: 'strokeColorScale',
-        domain: 'strokeColorDomain',
-        range: 'strokeColorRange',
-        key: 'strokeColor',
-        channelScaleType: CHANNEL_SCALES.color,
-        condition: config => config.visConfig.stroked
-      },
-      size: {
-        ...super.visualChannels.size,
-        property: 'stroke',
-        condition: config => config.visConfig.stroked
-      },
       height: {
         property: 'height',
         field: 'heightField',
@@ -173,15 +155,10 @@ export default class TripLayer extends Layer {
       heightDomain: [0, 1],
       heightScale: 'linear',
 
-      // add radius visual channel
-      radiusField: null,
-      radiusDomain: [0, 1],
-      radiusScale: 'linear',
-
       // add stroke color visual channel
-      strokeColorField: null,
-      strokeColorDomain: [0, 1],
-      strokeColorScale: 'quantile'
+      colorField: null,
+      colorDomain: [0, 1],
+      colorScale: 'quantile'
     };
   }
 
@@ -198,9 +175,6 @@ export default class TripLayer extends Layer {
       colorScale,
       colorField,
       colorDomain,
-      strokeColorField,
-      strokeColorScale,
-      strokeColorDomain,
       color,
       sizeScale,
       sizeDomain,
@@ -208,22 +182,10 @@ export default class TripLayer extends Layer {
       heightField,
       heightDomain,
       heightScale,
-      radiusField,
-      radiusDomain,
-      radiusScale,
       visConfig
     } = this.config;
 
-    const {
-      enable3d,
-      stroked,
-      colorRange,
-      heightRange,
-      sizeRange,
-      radiusRange,
-      strokeColorRange,
-      strokeColor
-    } = visConfig;
+    const {enable3d, stroked, colorRange, heightRange, sizeRange} = visConfig;
 
     const getFeature = this.getPositionAccessor(this.config.column);
 
@@ -249,7 +211,7 @@ export default class TripLayer extends Layer {
       geojsonData = filteredIndex.map(i => this.dataToFeature[i]).filter(d => d);
     }
 
-    // fill color
+    // color
     const cScale =
       colorField &&
       this.getVisChannelScale(
@@ -258,14 +220,6 @@ export default class TripLayer extends Layer {
         colorRange.colors.map(hexToRgb)
       );
 
-    // stroke color
-    const scScale =
-      strokeColorField &&
-      this.getVisChannelScale(
-        strokeColorScale,
-        strokeColorDomain,
-        strokeColorRange.colors.map(hexToRgb)
-      );
     // calculate stroke scale - if stroked = true
     const sScale =
       sizeField &&
@@ -278,10 +232,6 @@ export default class TripLayer extends Layer {
       enable3d &&
       this.getVisChannelScale(heightScale, heightDomain, heightRange);
 
-    // point radius
-    const rScale =
-      radiusField && this.getVisChannelScale(radiusScale, radiusDomain, radiusRange);
-
     return {
       data: geojsonData,
       getFeature,
@@ -293,14 +243,6 @@ export default class TripLayer extends Layer {
               colorField
             )
           : d.properties.fillColor || color,
-      // getColor: d =>
-      //   scScale
-      //     ? this.getEncodedChannelValue(
-      //         scScale,
-      //         allData[d.properties.index],
-      //         strokeColorField
-      //       )
-      //     : d.properties.lineColor || strokeColor || color,
       getLineWidth: d =>
         sScale
           ? this.getEncodedChannelValue(
@@ -318,16 +260,7 @@ export default class TripLayer extends Layer {
               heightField,
               0
             )
-          : d.properties.elevation || 500,
-      getRadius: d =>
-        rScale
-          ? this.getEncodedChannelValue(
-              rScale,
-              allData[d.properties.index],
-              radiusField,
-              0
-            )
-          : d.properties.radius || 1
+          : d.properties.elevation || 500
     };
   }
   /* eslint-enable complexity */
@@ -344,11 +277,6 @@ export default class TripLayer extends Layer {
     // get lightSettings from points
     const lightSettings = this.getLightSettingsFromBounds(bounds);
 
-    // if any of the feature has properties.radius set to be true
-    const fixedRadius = Boolean(
-      allFeatures.find(d => d && d.properties && d.properties.radius)
-    );
-
     // keep a record of what type of geometry the collection has
     const featureTypes = allFeatures.reduce((accu, f) => {
       const geoType = featureToDeckGlGeoType(f && f.geometry && f.geometry.type);
@@ -359,39 +287,17 @@ export default class TripLayer extends Layer {
       return accu;
     }, {});
 
-    this.updateMeta({bounds, lightSettings, fixedRadius, featureTypes});
+    this.updateMeta({bounds, lightSettings, featureTypes});
   }
 
   setInitialLayerConfig(allData) {
     this.updateLayerMeta(allData);
     const {featureTypes} = this.meta;
-    // default settings is stroke: true, filled: false
-    if (featureTypes && featureTypes.polygon) {
-      // set both fill and stroke to true
-      return this.updateLayerVisConfig({
-        filled: true,
-        stroked: true,
-        strokeColor: colorMaker.next().value
-      });
-    } else if (featureTypes && featureTypes.point) {
-      // set fill to true if detect point
-      return this.updateLayerVisConfig({filled: true, stroked: false});
-    }
-
     return this;
   }
 
-  renderLayer({
-    data,
-    idx,
-    objectHovered,
-    mapState,
-    interactionConfig,
-    visStateActions,
-    animationConfig
-  }) {
-    const {lightSettings, fixedRadius} = this.meta;
-    const radiusScale = this.getRadiusScaleByZoom(mapState, fixedRadius);
+  renderLayer({data, idx, mapState, animationConfig}) {
+    const {lightSettings} = this.meta;
     const zoomFactor = this.getZoomFactor(mapState);
     const {visConfig} = this.config;
 
@@ -400,7 +306,6 @@ export default class TripLayer extends Layer {
       lineWidthScale: visConfig.thickness * zoomFactor * 8,
       lineWidthMinPixels: 1,
       elevationScale: visConfig.elevationScale,
-      pointRadiusScale: radiusScale,
       lineMiterLimit: 4
     };
 
@@ -422,10 +327,6 @@ export default class TripLayer extends Layer {
       getLineWidth: {
         sizeField: this.config.sizeField,
         sizeRange: visConfig.sizeRange
-      },
-      getRadius: {
-        radiusField: this.config.radiusField,
-        radiusRange: visConfig.radiusRange
       }
     };
 
