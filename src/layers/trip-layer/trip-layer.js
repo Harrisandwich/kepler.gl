@@ -127,7 +127,7 @@ export default class TripLayer extends Layer {
     return this.getFeature(this.config.columns);
   }
 
-  static findDefaultLayerProps({label, fields, data}, foundLayers) {
+  static findDefaultLayerProps({label, fields, data}) {
     const geojsonColumns = fields.filter(f => f.type === 'geojson').map(f => f.name);
 
     const defaultColumns = {
@@ -156,15 +156,12 @@ export default class TripLayer extends Layer {
       return [];
     }
 
-    return {
-      props: foundColumns.map(columns => ({
-        label:
-          (typeof label === 'string' && label.replace(/\.[^/.]+$/, '')) || this.type,
-        columns,
-        isVisible: true
-      })),
-      foundLayers: foundLayers.filter(l => l.type !== 'geojson')
-    };
+    return foundColumns.map(columns => ({
+      label:
+        (typeof label === 'string' && label.replace(/\.[^/.]+$/, '')) || this.type,
+      columns,
+      isVisible: true
+    }));
   }
 
   getDefaultLayerConfig(props = {}) {

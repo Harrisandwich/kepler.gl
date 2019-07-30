@@ -28,7 +28,7 @@ const propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object),
   datasets: PropTypes.object,
   uiState: PropTypes.object,
-  layers: PropTypes.object,
+  layers: PropTypes.arrayOf(PropTypes.object),
   animationConfig: PropTypes.object,
   visStateActions: PropTypes.object,
   sidePanelWidth: PropTypes.number,
@@ -54,9 +54,7 @@ export default function BottomWidgetFactory(TimeWidget, AnimationControl) {
     const {activeSidePanel} = uiState;
     const isOpen = Boolean(activeSidePanel);
 
-    const enlargedFilterWidth = isOpen
-      ? containerW - sidePanelWidth
-      : containerW;
+    const enlargedFilterWidth = isOpen ? containerW - sidePanelWidth : containerW;
 
     const animatedLayer = layers.find(l => l.type === 'trip');
     const tripLayerVisible = layers
