@@ -195,6 +195,9 @@ export default class TripLayer extends Layer {
   formatLayerData(_, allData, filteredIndex, oldLayerData, opt = {}) {
     // to-do: parse segment from allData
     const {
+      colorScale,
+      colorField,
+      colorDomain,
       strokeColorField,
       strokeColorScale,
       strokeColorDomain,
@@ -214,6 +217,7 @@ export default class TripLayer extends Layer {
     const {
       enable3d,
       stroked,
+      colorRange,
       heightRange,
       sizeRange,
       radiusRange,
@@ -245,6 +249,15 @@ export default class TripLayer extends Layer {
       geojsonData = filteredIndex.map(i => this.dataToFeature[i]).filter(d => d);
     }
 
+    // fill color
+    const cScale =
+      colorField &&
+      this.getVisChannelScale(
+        colorScale,
+        colorDomain,
+        colorRange.colors.map(hexToRgb)
+      );
+
     // stroke color
     const scScale =
       strokeColorField &&
@@ -273,13 +286,21 @@ export default class TripLayer extends Layer {
       data: geojsonData,
       getFeature,
       getColor: d =>
-        scScale
+        cScale
           ? this.getEncodedChannelValue(
-              scScale,
+              cScale,
               allData[d.properties.index],
-              strokeColorField
+              colorField
             )
-          : d.properties.lineColor || strokeColor || color,
+          : d.properties.fillColor || color,
+      // getColor: d =>
+      //   scScale
+      //     ? this.getEncodedChannelValue(
+      //         scScale,
+      //         allData[d.properties.index],
+      //         strokeColorField
+      //       )
+      //     : d.properties.lineColor || strokeColor || color,
       getLineWidth: d =>
         sScale
           ? this.getEncodedChannelValue(
@@ -390,10 +411,10 @@ export default class TripLayer extends Layer {
         heightRange: visConfig.heightRange
       },
       getColor: {
-        color: visConfig.strokeColor,
-        colorField: this.config.strokeColorField,
-        colorRange: visConfig.strokeColorRange,
-        colorScale: this.config.strokeColorScale
+        color: this.config.color,
+        colorField: this.config.colorField,
+        colorRange: visConfig.colorRange,
+        colorScale: this.config.colorScale
       },
       getTrailLength: {
         trailLength: visConfig.trailLength
